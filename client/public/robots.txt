@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://giveaway-techvault.vercel.app/sitemap.xml

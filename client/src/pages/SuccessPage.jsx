@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const TELEGRAM_LINK = 'https://t.me/yourchannel';
+const TELEGRAM_LINK = 'https://t.me/techvault_dev';
 
 // Simple confetti particles
 function Confetti() {

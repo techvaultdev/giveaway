@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import AdBanner300x250 from './AdBanner300x250';
+import AdsterraBanner from './AdsterraBanner';
 import AdNativeBanner from './AdNativeBanner';
 
 function CountdownTimer({ seconds = 15, onComplete }) {
@@ -91,7 +91,13 @@ function CountdownTimer({ seconds = 15, onComplete }) {
       </div>
 
       <div className="w-full flex justify-center">
-        <AdBanner300x250 id="timer-bottom-ad" />
+        <AdsterraBanner
+          id="timer-bottom-ad"
+          width={300}
+          height={250}
+          keyValue="fb258069920e57011e04b6303f9f7494"
+          scriptSrc="https://www.highrevenueformat.com/fb258069920e57011e04b6303f9f7494/invoke.js"
+        />
       </div>
     </div>
   );

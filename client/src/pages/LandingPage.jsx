@@ -1,5 +1,6 @@
 import EntryForm from '../components/EntryForm';
-import AdBanner from '../components/AdBanner';
+import AdLeaderboard468x60 from '../components/AdLeaderboard468x60';
+import AdSocialBar from '../components/AdSocialBar';
 import VideoSection from '../components/VideoSection';
 
 function LandingPage() {
@@ -7,7 +8,7 @@ function LandingPage() {
     <div className="min-h-screen">
       {/* Top Ad */}
       <div className="max-w-4xl mx-auto px-4 pt-4">
-        <AdBanner size="leaderboard" label="top-banner" />
+        <AdLeaderboard468x60 id="top-banner" />
       </div>
 
       {/* Hero Section */}
@@ -123,7 +124,7 @@ function LandingPage() {
 
       {/* Bottom Ad */}
       <div className="max-w-4xl mx-auto px-4 pb-8">
-        <AdBanner size="rectangle" label="bottom-banner" />
+        <AdSocialBar id="bottom-banner" />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import AdBanner from './AdBanner';
+import AdBanner300x250 from './AdBanner300x250';
+import AdNativeBanner from './AdNativeBanner';
 
 function CountdownTimer({ seconds = 15, onComplete }) {
   const [timeLeft, setTimeLeft] = useState(seconds);
@@ -34,7 +35,7 @@ function CountdownTimer({ seconds = 15, onComplete }) {
   return (
     <div className="space-y-5 animate-fade-in" id="countdown-timer">
       <div className="w-full flex justify-center">
-        <AdBanner size="leaderboard" label="timer-top-ad" />
+        <AdNativeBanner id="timer-top-ad" />
       </div>
 
       <div className="flex flex-col items-center gap-4">
@@ -90,7 +91,7 @@ function CountdownTimer({ seconds = 15, onComplete }) {
       </div>
 
       <div className="w-full flex justify-center">
-        <AdBanner size="rectangle" label="timer-bottom-ad" />
+        <AdBanner300x250 id="timer-bottom-ad" />
       </div>
     </div>
   );

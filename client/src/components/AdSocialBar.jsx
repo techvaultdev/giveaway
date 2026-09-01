@@ -1,37 +1,32 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import AdsterraBanner from './AdsterraBanner';
 
-function AdSocialBar({ id = 'bottom-banner' }) {
+function AdSocialBar({ id = 'bottom-banner', fallback = true }) {
   const containerRef = useRef(null);
+  const [showFallback, setShowFallback] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const existingScript = document.querySelector('script[data-adsterra-social="bar"]');
-    if (existingScript) existingScript.remove();
-
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.dataset.adsterraSocial = 'bar';
-    script.src = 'https://pl31133610.profitableratecpmnetwork.com/6d/20/bc/6d20bc0ecc47f66e701d5595a22d732a.js';
-    script.async = true;
-
-    containerRef.current.appendChild(script);
-
-    return () => {
-      if (script.parentNode) script.parentNode.removeChild(script);
-      if (containerRef.current) containerRef.current.innerHTML = '';
-    };
+    const socialScript = document.querySelector('script[src*="6d20bc0ecc47f66e701d5595a22d732a.js"]');
+    if (!socialScript) {
+      setShowFallback(true);
+    }
   }, []);
 
-  return (
-    <div
-      ref={containerRef}
-      id={id}
-      className="flex items-center justify-center w-full min-h-[90px] overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 shadow-sm"
-      style={{ maxWidth: '728px', width: '100%' }}
-      aria-label="Social bar ad"
-    />
-  );
+  if (showFallback || fallback) {
+    return (
+      <div id={id} className="w-full flex justify-center py-2" aria-label="Bottom banner fallback">
+        <AdsterraBanner
+          id="bottom-banner-fallback"
+          width={300}
+          height={250}
+          keyValue="fb258069920e57011e04b6303f9f7494"
+          scriptSrc="https://www.highrevenueformat.com/fb258069920e57011e04b6303f9f7494/invoke.js"
+        />
+      </div>
+    );
+  }
+
+  return <div ref={containerRef} id={id} className="hidden" aria-label="Floating social bar ad" />;
 }
 
 export default AdSocialBar;

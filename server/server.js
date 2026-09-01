@@ -12,11 +12,14 @@ const PORT = process.env.PORT || 5000;
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || '*',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   })
 );
-app.use(express.json({ limit: '10kb' }));
+
+// Body parser middleware (Must be declared BEFORE routes)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Trust proxy for accurate IP capture (Vercel, Render, etc.)
 app.set('trust proxy', 1);
@@ -25,8 +28,13 @@ app.set('trust proxy', 1);
 app.use('/api', entryRoutes);
 
 // Health check
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/api/health', async (_req, res) => {
+  try {
+    await connectDB();
+    res.json({ status: 'ok', database: 'connected', timestamp: new Date().toISOString() });
+  } catch (err) {
+    res.status(500).json({ status: 'error', database: err.message });
+  }
 });
 
 // 404 handler
@@ -36,17 +44,19 @@ app.use((_req, res) => {
 
 // Global error handler
 app.use((err, _req, res, _next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({ success: false, message: 'Internal server error' });
+  console.error('Unhandled server error:', err);
+  res.status(500).json({ success: false, message: err.message || 'Internal server error' });
 });
 
-// ------- Database & Server Start -------
-connectDB().then(() => {
-  if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+// ------- Database & Server Start (Local Development Only) -------
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  connectDB().then(() => {
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
-  }
-});
+  }).catch((err) => {
+    console.error('Local server startup error:', err.message);
+  });
+}
 
 module.exports = app;

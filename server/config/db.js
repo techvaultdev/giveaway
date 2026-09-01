@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Global cache to prevent multiple connections in serverless environments
 let isConnected = false;
 
-// Mongoose connection event listeners for robust debugging
+// Mongoose connection event listeners for debugging
 mongoose.connection.on('connected', () => {
   console.log('🟢 Mongoose connected to MongoDB Atlas');
 });
@@ -17,16 +17,9 @@ mongoose.connection.on('disconnected', () => {
 });
 
 const connectDB = async () => {
-  // 1. Connection Caching for Serverless (Vercel/Render)
-  if (isConnected) {
-    console.log('⚡ Using existing MongoDB connection');
-    return;
-  }
-
-  // Fallback state from previous connection attempt if mongoose maintains it
-  if (mongoose.connection.readyState === 1) {
+  // 1. Connection Caching for Serverless (Vercel)
+  if (isConnected || mongoose.connection.readyState === 1) {
     isConnected = true;
-    console.log('⚡ Using existing MongoDB connection (ready state)');
     return;
   }
 
@@ -34,7 +27,7 @@ const connectDB = async () => {
     const uri = process.env.MONGODB_URI;
 
     if (!uri) {
-      throw new Error('MONGODB_URI is not defined in the environment variables');
+      throw new Error('MONGODB_URI is not defined in environment variables');
     }
 
     // 2. Initial connection
@@ -43,12 +36,10 @@ const connectDB = async () => {
     });
 
     isConnected = !!conn.connections[0].readyState;
-
-    console.log(`✅ MongoDB Initialized: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error('❌ Failed to connect to MongoDB. Check credentials or Atlas Network Access (IP Whitelist).');
-    console.error('Error Details:', error.message);
-    process.exit(1);
+    console.error('❌ Failed to connect to MongoDB:', error.message);
+    throw error;
   }
 };
 

@@ -53,12 +53,17 @@ function EntryForm() {
 
     setIsSubmitting(true);
     try {
-      await axios.post(`${API_URL}/api/entry`, {
+      const response = await axios.post(`${API_URL}/api/entry`, {
         name: formData.name.trim(),
         email: formData.email.trim(),
         instagramHandle: formData.instagramHandle.trim(),
       });
-      navigate('/tasks');
+
+      if (response?.data?.success) {
+        navigate('/tasks');
+      } else {
+        setServerError(response?.data?.message || 'Something went wrong. Please try again.');
+      }
     } catch (err) {
       const message =
         err.response?.data?.message || 'Something went wrong. Please try again.';

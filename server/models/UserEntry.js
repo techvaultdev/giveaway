@@ -34,7 +34,6 @@ const userEntrySchema = new mongoose.Schema({
   },
 });
 
-// Index for faster lookups
-userEntrySchema.index({ email: 1 });
+
 
 module.exports = mongoose.model('UserEntry', userEntrySchema);

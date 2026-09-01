@@ -14,7 +14,7 @@ function Footer() {
           {/* Links */}
           <div className="flex items-center gap-4">
             <a
-              href="https://instagram.com/yourpage"
+              href="https://instagram.com/techvault.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-flipkart-blue transition-colors"
@@ -25,7 +25,7 @@ function Footer() {
               </svg>
             </a>
             <a
-              href="https://t.me/yourchannel"
+              href="https://t.me/techvault_dev"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-flipkart-blue transition-colors"
